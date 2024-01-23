@@ -23,7 +23,7 @@ server.use((req, res, next) => {
     console.timeEnd("timeLogger");
 });
 
-// Middlewares locais
+// Middlewares Locais
 const checkNameExists = (req, res, next) => {
     const { name } = req.query;
 
