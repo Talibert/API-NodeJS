@@ -17,3 +17,19 @@
 9 - quando estiver dentro da pasta repositories no git bash, dê o comando "code ." para abrir o visual studio code naquela pasta
 
 10 - para clonar um projeto do github, devemos copiar a URL com o protocolo desejado e dar o comando "git clone URL COPIADA"
+
+11 - use o comando git status (no terminal do projeto) para verificar quais arquivos que foram modificados
+
+12 - use o comando git diff para verificar linha por linha do que foi alterado
+
+13 - use o comando "git add ." para adicionar todos os arquivos modificados e untrackeds na fila de commit 
+
+14 - use o comando "git restore --staged" para remover os arquivos da lista de commit
+
+15 - use o comando "git add NOME DO ARQUIVO" para adicionar um arquivo específico a lista de commit
+
+16 - para dar commit, use o comando "git commit -m "DENTRO DAS ASPAS VAI A DESCRIÇÃO DO COMMIT""
+
+17 - ao dar o commit, use o comando "git status" para verificar quantos commits seu branch está a frente do main. Isso ocorre porque ao realizar o commit, você atualiza o repositório local da sua máquina, mas ainda não atualizou o repositório da nuvem
+
+18 - para finalizar o commit para a nuvem, realize o comando "git push"
