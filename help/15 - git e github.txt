@@ -35,3 +35,5 @@ NO TERMINAL DO PROJETO
 17 - ao dar o commit, use o comando "git status" para verificar quantos commits seu branch está a frente do main. Isso ocorre porque ao realizar o commit, você atualiza o repositório local da sua máquina, mas ainda não atualizou o repositório da nuvem
 
 18 - para finalizar o commit para a nuvem, realize o comando "git push -u origin master".
+
+19 - use o comando "git pull" para puxar do repositório remoto as alterações para o repositório local
