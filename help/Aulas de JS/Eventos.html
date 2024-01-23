@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      .highlight {
+        color: blue;
+      }
+    </style>    
+  </head>
+  <body>
+
+    <script>
+      // DOMContentLoaded
+      // https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event
+      // o DOMContentLoaded só executa o script após o carregamento da página
+      // isso evita um possível erro cronológico de declarações de variáveis
+      // o document.addEventListener recebe o evento e uma função callback que irá determinar o que será feito
+      document.addEventListener("DOMContentLoaded", () => { //arrow function anonima
+        const el = document.getElementById("title")
+        console.log("el", el)
+      })
+    </script>
+
+    <h1 id="title">Minha página</h1>
+    
+    <button>Clique me</button>
+    
+    <a href="https://devsamurai.com.br">Clique me</a><br>
+    
+    <input type="text" /> <br>
+
+    <form action="https://google.com/search" method="get">
+      <label for="q">* Busca</label>
+      <input type="text" name="q" />
+      <input type="submit" value="Pesquisar" />
+    </form><br>
+
+    <h1 id="titleCSS">Título da página</h1>
+
+    <button id="change-color">Alterar cor</button>
+    
+    <h1 id="titleClass">Título da página</h1>
+    
+    <button id="change-class">Alterar classe</button>
+    
+    <script>
+      // Click
+      // https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event
+      // o evento de Click é utilizado para executar um script quando ocorre um click em um elemento da página
+      
+      const button = document.querySelector("button")
+      button.addEventListener("click", () => {
+        console.log("Clicou no botão")
+      })
+
+      const hyperlink = document.querySelector("a")
+      hyperlink.addEventListener("click", (event) => { //arrow function anonima
+        event.preventDefault() //essa linha é para impedir que o botão redirecione para o link
+        console.log("Clicou no hyperlink")
+      })
+    </script>
+
+    <script>
+      // keydown e keyup
+      // https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event
+      // é um evento que identifica quando o usuário pressiona a tecla ou quando ele solta a tecla
+      
+      const inputEl = document.querySelector("input[type=text]")// recuperamos o elemento de input do HTML
+      inputEl.addEventListener("keydown", (event) => { //criamos o event listener de keydown com um arrow function anonima e um argumento
+        console.log("event", `${event.key} - ${event.keyCode}`) //o argumento é usado para acessar os métodos key (diz a letra) e keycode(diz o cód da letra na tabela ascii)
+
+        if (event.keyCode === 13) { //estrutura de decisão que será ativada se o usuário pressionar enter
+          alert(`Tecla ENTER pressionada - ${inputEl.value}`) // o método value exibe o que foi digitado pelo usuário
+        }
+      })
+    </script>
+    
+    <script>
+      // submit
+      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit_event
+      const formEl = document.querySelector("form")// recuperamos o elemento de form do HTML
+
+      formEl.addEventListener("submit", (event) => {//criamos o evento listener com submit e um argumento event
+        const queryValue = event.target.querySelector("input[name=q]").value//jogamos o valor enviado pelo usuário na variávei queryValue
+        console.log("queryValue", queryValue)//exibimos no console o valor digitado
+
+        if (!queryValue) {//se o usuário não digitar nada, a pesquisa não acontece e um alerta é exibido
+          event.preventDefault()
+          alert("O campo busca é obrigatório.")
+        }
+      })      
+    </script>
+
+    <script>
+      // alterando os estilos CSS com o JavaScript em tempo de execução
+      // https://developer.mozilla.org/en-US/docs/Web/CSS/Reference#index
+      const titleCSSEl = document.querySelector("#titleCSS")// seleciona o título que iremos manipular
+
+      const buttonCSSEl = document.querySelector("#change-color")// seleciona o botão que irá trocar a cor
+      buttonCSSEl.addEventListener("click", () => { // adiciona no botão o evento de click
+        titleCSSEl.style = "color: red; font-size: 55px" //realiza a mudança de style do título
+        // titleEl.style.color = "red"
+        // titleEl.style.fontSize = "55px"
+      })
+    </script>
+
+    <script>
+      // alterando as classes CSS com o JavaScript em tempo de execução
+      // https://developer.mozilla.org/en-US/docs/Web/CSS/Reference#index
+      const titleClassEl = document.querySelector("#titleClass")// recupera o titulo
+ 
+      const buttonClassEl = document.querySelector("#change-class")// recupera o botão
+      buttonClassEl.addEventListener("click", () => {// adiciona um evento de click no botão de classe
+        // if (titleEl.classList.contains("highlight")) {
+        //   titleEl.classList.remove("highlight")
+        // } else {
+        //   titleEl.classList.add("highlight")
+        // }
+
+        titleClassEl.classList.toggle("highlight") //o método toggle adiciona e remove a classe
+        //isso faz com que ele elimine a necessidade de um if else
+        //o método contains verifica se um elemento possui ou não uma classe
+        //o método remove exclui a classe e o add adiciona a classe
+      })
+    </script>    
+  </body>
+</html>

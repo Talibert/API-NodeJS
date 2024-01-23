@@ -1,0 +1,689 @@
+INSTALANDO E CONFIGURANDO O POSTGRESQL
+
+    Pesquise pelo download do postgresql no google
+    Baixe a versão 10 do windows
+
+    Execute o pgAdmin4
+    Apague o server existente se tiver algum
+    Crie um novo server
+
+    Defina um nome
+    o host precisa ser "localhost"
+    Mantenha a porta como 5432
+    maintence base e username mantenha como postgres
+    coloque uma senha. A minha é "malu"
+
+    Para testar, dentro da pasta Databases, clique em postgres e clique na opçào "Query Tool"
+    Digite select 'Olá';
+    De play
+    Ele deve retornar Olá
+
+    Agora devemos criar um database. Para isso, clique no db "postgres" dentro da pasta "database".
+    Isso irá habilitar o botão "Query tool"
+    Clique nele e execute o comando "create database empresarial;"
+
+    Após executar, clique com o botão direito na pasta "databases" e clique em "refresh"
+
+MODELO DE ENTIDADE RELACIONAL:
+
+    Clique no banco de dados "empresarial" e clique no botão "query tool"
+    Digitei o código abaixo para criar uma tabela de cliente:
+        
+        CREATE TABLE cliente (
+            id SERIAL PRIMARY KEY,
+            nome_empresarial VARCHAR(255) NOT NULL,
+            cnpj VARCHAR(18) NOT NULL,
+            ie VARCHAR(15),
+            email VARCHAR(255),
+            website VARCHAR(255),
+            telefone VARCHAR(255),
+            cep VARCHAR(9),
+            endereco VARCHAR(255),
+            numero VARCHAR(255),
+            complemento VARCHAR(255),
+            bairro VARCHAR(255),
+            cidade VARCHAR(255),
+            estado CHAR(2),
+            nota INTEGER,
+            situacao VARCHAR(255) NOT NULL
+        );
+
+        SERIAL significa que o número irá incrementar a cada ocorrência (ideal para ids)
+        PRIMARY KEY é a chave primária de cada instância que a tabela tiver
+        NOT NULL significa que o campo não pode ser igual a vazio
+
+    Em seguida, digitei o código abaixo para criar uma tabela de contato, que irá referenciar a tabela de cliente:
+
+        CREATE TABLE contato (
+            id SERIAL PRIMARY KEY,
+            nome VARCHAR(255) NOT NULL,
+            departamento VARCHAR(255),
+            cpf VARCHAR (14) NOT NULL,
+            email VARCHAR(255),
+            telefone VARCHAR (15),
+            situacao VARCHAR(255) NOT NULL,
+            id_cliente INTEGER REFERENCES cliente(id)
+        );
+
+        REFERENCES significa que estamos utilizando uma chave estrangeira. Para isso, devemos escrever o nome da tabela com o nome do atributo entre parenteses.
+
+    A próxima tabela é a de fornecedor
+
+        CREATE TABLE fornecedor (
+            id SERIAL PRIMARY KEY,
+            nome_empresarial VARCHAR(255) NOT NULL,
+            cnpj VARCHAR(18) NOT NULL,
+            ie VARCHAR(15),
+            email VARCHAR(255),
+            website VARCHAR(255),
+            telefone VARCHAR(15),
+            cep VARCHAR(9),
+            endereco VARCHAR(255),
+            numero VARCHAR(255),
+            complemento VARCHAR(255),
+            bairro VARCHAR(255),
+            cidade VARCHAR(255),
+            estado CHAR(2),
+            nota INTEGER,
+            situacao VARCHAR(255), NOT NULL
+        )
+
+    Agora a tabela categoria
+
+        CREATE TABLE categoria (
+            id SERIAL PRIMARY KEY,
+            nome VARCHAR(255) NOT NULL,
+            situacao VARCHAR(255) NOT NULL,
+            debito BOOLEAN,
+            credito BOOLEAN,
+            id_pai INTEGER REFERENCES categoria(id)
+        )
+
+        a tabela categoria tem um chave estrangeira que referencia a PRIMARY KEY da própria tabela.
+
+    Vamos criar agora a tabela contato
+
+        CREATE TABLE conta (
+            id SERIAL PRIMARY KEY,
+            nome VARCHAR(255) NOT NULL,
+            agencia VARCHAR(255) NOT NULL,
+            conta_corrente VARCHAR(255) NOT NULL,
+            data_inclusao TIMESTAMP NOT NULL,
+            observacao TEXT,
+            situacao VARCHAR(255) NOT NULL
+        )
+
+    Por ultimo, vamos criar a tabela lancamento. Ela é a ultima pois dependia das tabelas anteriores.
+
+        CREATE TABLE lancamento (
+            id SERIAL PRIMARY KEY,
+            parcela INTEGER NOT NULL,
+            total_parcelas INTEGER NOT NULL,
+            valor NUMERIC (10, 2) NOT NULL,
+            data_lancamento TIMESTAMP NOT NULL,
+            data_vencimento TIMESTAMP NOT NULL,
+            descricao TEXT,
+            situacao VARCHAR(255) NOT NULL,
+            id_conta INTEGER REFERENCES conta(id),
+            id_categoria INTEGER REFERENCES categoria(id),
+            id_cliente INTEGER,
+            id_fornecedor INTEGER
+        )
+
+INSERT
+
+    Para executar um comando de inserir, devemos utilizar a instrução:
+
+        INSERT INTO <nome da tabela>
+        (<coluna 1>, <coluna 2>, <colune 3>,...)
+        VALUES
+        ('<valor 1>', '<valor 2>', '<valor 3>',...)
+
+    Vamos executar um comando de insert para incluir uma ocorrência na tabela cliente:
+
+        INSERT INTO cliente
+        (nome_empresarial, cnpj, situacao)
+        VALUES
+        ('Auto Peças Mantiqueira', '123', 'ATIVO');
+
+        Repare que preenchemos apenas os campos definidos como NOT NULL, pois são obrigatórios
+        Para visualizar essas linhas sem executar um comando SELECT, clique com o botão direito na tabela e
+        Clique em View Data - All Rows
+
+    Vou repetir o comando com um número maior de colunas e dados para a tabela cliente
+
+        Primeira ocorrência
+        INSERT INTO cliente
+        (nome_empresarial, cnpj, ie, email, website, telefone, cep, endereco, numero, bairro, cidade, estado, nota, situacao)
+        VALUES
+        ('Auto Peças Mantiqueira', '12.345.678/0001-39', '123456789', 'auto@gmail.com', 'auto.com.br', '(11) 92398-9032', '12345-123', 'Rua auto', '123', 'vila auto', 'São Paulo', 'SP', 1234, 'ATIVO');
+
+        Segunda ocorrência
+        INSERT INTO cliente
+        (nome_empresarial, cnpj, ie, email, website, telefone, cep, endereco, numero, bairro, cidade, estado, nota, situacao)
+        VALUES
+        ('Supermercado Pepe', '99.345.678/0001-39', '993456789', 'supermercado@gmail.com', 'supermercado.com.br', '(11) 98899-9032', '99345-123', 'Rua supermercado', '993', 'vila supermercado', 'São Paulo', 'SP', 9934, 'ATIVO');
+
+        Terceira ocorrência
+        INSERT INTO cliente
+        (nome_empresarial, cnpj, ie, email, website, telefone, cep, endereco, numero, bairro, cidade, estado, nota, situacao)
+        VALUES
+        ('Supermercado Extra', '77.345.678/0001-39', '773456789', 'supermercadoextra@gmail.com', 'supermercadoextra.com.br', '(11) 97799-9032', '77345-123', 'Rua supermercado extra', '773', 'vila supermercado extra', 'Minas Gerais', 'MG', 7734, 'ATIVO');
+
+
+    Agora vou criar as ocorrências da tabela contato
+
+        Primeira ocorrência
+        INSERT INTO contato
+        (nome, departamento, cpf, email, telefone, situacao, id_cliente)
+        VALUES
+        ('Ronaldo', 'vendas', '123.456.789-10', 'ronaldo@gmail.com', '(11) 91234-5678', 'ATIVO', 2)
+
+        Segunda ocorrência
+        INSERT INTO contato
+        (nome, departamento, cpf, email, telefone, situacao, id_cliente)
+        VALUES
+        ('Juliana', 'vendas', '993.456.789-10', 'juliana@gmail.com', '(11) 99934-5678', 'ATIVO', 3)
+
+        Terceira ocorrência
+        INSERT INTO contato
+        (nome, departamento, cpf, email, telefone, situacao, id_cliente)
+        VALUES
+        ('Silvio', 'vendas', '773.456.789-10', 'silvio@gmail.com', '(11) 97734-5678', 'ATIVO', 4)
+
+SELECT E ORDER BY
+
+    Comando de Select simples de colunas definidas:
+
+        SELECT id, nome_empresarial, cnpj, situacao
+        FROM cliente;
+
+        Estou selecionando as colunas escritas acima, a partir da tabela cliente
+
+
+    Comando de Select de todas as colunas:
+
+        SELECT *
+        FROM cliente;
+
+        O * significa que eu estou pedindo todas as colunas disponíveis nas ocorrências da tabela cliente
+
+    Comando de Select com DISTINCT é utilizado para ignorar valores duplicados
+
+        SELECT DISTINCT cidade, estado
+        FROM cliente;
+
+        O DISTINCT é utilizado para excluir ocorrências repetidas nas colunas descritas. Ele faz essa analise através da combinação das colunas. Se tiver uma informação repetida na coluna um mas a informação da coluna dois for divergente, ele considera que as linhas são diferentes e as mantém
+
+    Comando de SELECT com condição WHERE:
+
+        SELECT nome_empresarial, cidade, estado
+        FROM cliente
+        WHERE cidade = 'Minas Gerais';
+
+        O WHERE deve receber a coluna (cidade), o operador (=) e o valor ('Minas Gerais')
+        Podemos inserir condições lógicas para complementar o comando SELECT:
+
+        SELECT nome_empresarial, cidade, estado
+        FROM cliente
+        WHERE situacao = 'ATIVO'
+        AND cidade = 'São Paulo';
+
+        A condição AND nos permite combinar registros ativos da cidade de São Paulo.
+        A linha de condição lógica deve receber operador lógico (AND, OR ou NOT), coluna (cidade), operador (=) e valor ('São Paulo')
+
+        Para combinar condições de OR, AND e NOT, defina bem o uso de parenteses entre as operações:
+
+        SELECT nome_empresarial, cidade, estado
+        FROM cliente
+        WHERE (situacao = 'ATIVO' AND cidade = 'São Paulo') OR (cidade = 'Minas Gerais' AND NOT situacao = 'ATIVO')
+
+    Verificar se colunas estão preenchidas:
+
+        SELECT nome_empresarial, cidade, estado
+        FROM cliente
+        WHERE cidade IS NOT NULL;
+
+    Utilizando o comando ORDER BY:
+
+        SELECT id, nome_empresarial, cnpj, situacao, cidade
+        FROM cliente
+        WHERE id != 2
+        ORDER BY cidade, nome_empresarial;
+    
+        Isso irá ordenar alfabeticamente os resultados de acordo com a coluna cidade. Caso hajam mais de uma ocorrência com a mesma cidade, a coluna nome_empresarial será utilzada para também ordenar esses resultados por ordem alfabetica.
+
+    Pedindo o resultado de forma decrescente:
+        
+        SELECT id, nome_empresarial, cnpj, situacao, cidade
+        FROM cliente
+        WHERE id != 2
+        ORDER BY cidade DESC, nome_empresarial;
+    
+        Devemos colocar o DESC na frente da coluna que desejamos o resultado em ordem decrescente
+
+UPDATE
+
+    O Comando de update tem a seguinte estrutura:
+
+        UPDATE <nome da tabela>
+        SET <coluna 1> = '<valor 1>',
+            <coluna 2> = '<valor 2>',
+            <coluna 3> = '<valor 3>'
+        WHERE <condição>;
+
+    O exemplo abaixo irá mudar a situacao de um registro para 'INATIVO':
+
+        UPDATE cliente
+        SET situacao = 'INATIVO'
+        WHERE id = 2;
+    
+    O exemplo abaixo irá tornar todas as ocorrências que estão ativas em inativas:
+
+        UPDATE cliente
+        SET situacao = 'INATIVO'
+        WHERE situacao = 'ATIVO';
+
+    Agora que todas as ocorrências são inativas, podemos mudar todas para ativas sem utilizar o WHERE:
+
+        UPDATE cliente
+        SET situacao = 'ATIVO';
+
+    DICA IMPORTANTE: ANTES DE EXECUTAR UM UPDATE, EXECUTE UM SELECT E VERIFIQUE SE SUA CONDIÇÃO DE WHERE ESTÁ CORRETA. EXEMPLO:
+
+        SELECT * FROM cliente
+        
+        --UPDATE cliente
+        --SET situacao = 'INATIVO'
+        WHERE id = 2;
+
+        Para testar se o where foi feito de forma correta, eu comentei as linhas referentes ao comando update e inseri um comando select para verificar os resultados que seriam retornados
+
+DELETE
+
+    O Comando delete é simples e funciona com a mesma lógica do comando UPDATE: TUDO DEPENDE DA EXECUÇÃO do WHERE. Portanto sempre que for executar um comando de DELETE, execute um SELECT primeiro para garantir que suas condições do WHERE estão corretas.
+
+    Exemplo de comando DELETE:
+
+        SELECT * FROM cliente
+
+        --DELETE FROM cliente
+        WHERE situacao = 'INATIVO' AND cidade = 'Minas Gerais';
+
+        Observe que o comando DELETE está comentado e o comando SELECT está habilitado. Isso serve para testarmos a execução da nossa lógica WHERE. Se o resultado retornado for o desejado, pode comentar o SELECT e descomentar o DELETE 
+
+SUBIR PLANILHAS EXCEL PARA O BANCO DE DADOS
+
+    É possível jogar planilhas preenchidas no excel ou outras ferramentes de tabela através do formato CSV. Esse formato separa todas as ocorrências em linhas e as colunas em virgulas.
+    Para isso, exporte ou salve a planilha em formato CSV.
+
+    Com suas planilhas salvas em CSV (certifique-se de que a ordem dos cabeçalhos é a mesma ordem das colunas), clique com o botão direito na tabela desejada e selecione a opção "import"
+
+    Selecione o diretório do arquivo, marque o formato como CSV e Selecione UTF8 como Encoding
+    Na aba Options, marque a opção HEADER e selecione a forma de delimitação como virgula
+    Na aba Columns é possível marcar ou desmarcar alguma coluna
+
+BACKUPS DO BANCO DE DADOS
+
+    Selecione a tabela desejada. Clique com o botão direito e selecione a opção backup.
+    Escolha um diretório e certifique-se que a extensão do arquivo é .sql
+    Format = plain
+    Encoding = UTF8
+    
+    Na aba Data/Objects:
+    Marque a opção "Data"
+
+    Na aba Options:
+    Marque a opção "Use Insert Commands"
+
+LIKE PARA BUSCA DE PADRÕES
+
+    SELECT id, nome_empresarial, cnpj, situacao
+    FROM cliente
+    WHERE nome_empresarial LIKE 'Emilly%';
+
+    Na Query acima estamos buscando por ocorrências que contenham a palavra 'Emilly' no início do nome_empresarial. O '%' é um caractere coringa e significa que após a palavra 'Emilly' pode ser qualquer coisa.
+    Existem dois tipos de caracteres coringa: '%' e '_'.
+    O '%' indica que a consulta deve buscar um ou mais caracteres que podem estar antes ou depois da palavra fornecida (vai depender de onde você posicionar o '%')
+    O '_' indica que a consulta deve buscar por apenas um caractere e ele vai ser localizado onde você posicioná-lo na Query. Exemplos:
+
+    SELECT id, nome_empresarial, cnpj, situacao
+    FROM cliente
+    WHERE nome_empresarial LIKE '%Emilly'; --busca por tudo que TERMINA com Emilly
+
+    SELECT id, nome_empresarial, cnpj, situacao
+    FROM cliente
+    WHERE nome_empresarial LIKE '%Industrial%'; --busca por tudo que tenha Industrial NO MEIO
+
+    SELECT id, nome_empresarial, cnpj, situacao
+    FROM cliente
+    WHERE nome_empresarial LIKE 'A%L'; --busca por tudo que COMEÇA com A e TERMINA com L
+
+    SELECT id, nome_empresarial, cnpj, situacao
+    FROM cliente
+    WHERE nome_empresarial LIKE 'T_ste%'; --busca por tudo que inicie com T_ste e termine com qualquer coisa (o _ representa que aquele caractere pode ser qualquer coisa)
+
+UPPER PARA CONSULTAS
+
+    Para não tem problemas com consultas Case Sensitivas, podemos colocar os elementos do WHERE dentro da função UPPER. Exemplo:
+
+    SELECT id, nome_empresarial, cnpj
+    FROM cliente
+    WHERE UPPER(nome_empresarial) LIKE UPPER('%LTDA');
+
+    Na consulta acima, não importa se o cliente digitou LTDA em maiusculo ou minusculo. A Query joga o nome_empresarial para maiusculo e faz a pesquisa em maiusculo também.
+    IMPORTANTE: isso não modifica o registro
+
+IN PARA BUSCA DE MÚLTIPLOS valores
+
+    Em uma situação onde é necessário pesquisar por diversos valores possíveis de um campo, nós poderíamos escrever assim:
+
+    SELECT id, nome_empresarial, situacao
+    FROM cliente
+    WHERE situacao = 'APROVADO' OR situacao = 'PENDENTE' OR situacao = 'CANCELADO';
+
+    Dessa forma a consulta funciona, mas não segue boas as boas praticas do SQL. Para passar uma lista de resultados, podemos utilizar o IN. O IN recebe uma lista de valores:
+    
+    SELECT id, nome_empresarial, situacao
+    FROM cliente
+    WHERE situacao IN ('APROVADO', 'PENDENTE', 'CANCELADO');
+
+    Também podemos incluir uma Query Select como argumento do IN para deixar a consulta bem mais completa. Exemplo:
+
+    SELECT id, nome, departamento
+    FROM contato
+    WHERE situacao IN (SELECT situacao FROM acompanhamento);
+
+    Nesse caso, imagine uma tabela acompanhamento que contém todos os status possível de 'situacao'. Para que não seja necessário digitar as possíveis strings existentes em 'situacao', nós fazemos um SELECT que traz todos os resultados existentes para 'situacao', tornando a consulta sem erros.
+
+BETWEEN PARA BUSCA DE VALORES ENTRE INTERVALOS
+
+    O Between é utilizado (em valores numéricos e em datas) para encontrar valores que existam dentro do intervalo específicado. Exemplo:
+
+    SELECT id, nome_empresarial, cnpj, nota
+    FROM cliente
+    WHERE nota BETWEEN 3 AND 5;
+
+    SELECT id, nome_empresarial, cnpj, nota
+    FROM cliente
+    WHERE data_inclusao BETWEEN '2012-01-01' AND '2012-12-01' --a data deve ser informada como string, utilizando o padrão ano-mes-dia
+
+    IMPORTANTE: o BETWEEN atua como >= ou <=
+
+LIMIT E OFFSET PARA LIMITAR A QUANTIDADE RESULTADOS E CRIAR PAGINAÇÕES
+
+    O LIMIT é importante para não sobrecarregar o servidor. Ele é utilizado para definir uma quantidade limite de registros no retorno do SELECT. O OFFSET define que existem paginações no retorno do SELECT
+
+    SELECT *
+    FROM cliente
+    LIMIT 3 OFFSET 0;
+
+    O OFFSET é o numero de registros que serão ignorados. Se for igual a 0, nenhum registro será ignorado e os registros começaram do número 1. Se for igual a 5, os registros começaram do número 6. Funciona como indices de array.
+
+FUNÇÕES DE AGREGAÇÃO MIN, MAX, SUM, AVG E COUNT
+
+    Funções de Agregação são funções que adicionamos na declaração das colunas de uma tabela durante o SELECT. Exemplo:
+
+    SELECT MIN(nota), MAX(nota) --MIN E MAX
+    FROM cliente;
+
+    SELECT MIN(data_inclusao) --MIN
+    FROM conta;
+
+    SELECT SUM(nota) --SOMA
+    FROM cliente;
+
+    SELECT AVG(nota) --MÉDIA
+    FROM cliente;
+
+    SELECT COUNT(nota) --CONTAGEM. É UTILIZADO COMO CONTAGEM DE REGISTROS EM CONJUNTO DAS FUNÇÕES LIMIT E OFFSET
+
+    -- Subconsulta para saber o número total de registros
+    SELECT COUNT(*) AS total_registros --aqui estamos rotulando o resultado para ficar mais legivel. É opcional
+    FROM cliente
+    WHERE nota BETWEEN 2 AND 5;
+
+    -- Consulta principal
+    SELECT id, nome_empresarial, cnpj
+    FROM cliente
+    WHERE nota BETWEEN 2 AND 5
+    ORDER BY nota DESC -- ordena de forma decrescente
+    LIMIT 10 -- define a exibição de 10 registros por página
+    OFFSET 20; --começará os resultados a partir do registro 21
+
+AGRUPANDO VALORES AGREGADOS COM O GROUP BY
+
+    Supondo que você deseja saber a nota média das empresas, mas deseja saber a média por cidade... É necessário utilizar o GROUP BY. Ao aplicar uma função de agregação na coluna de nota, devemos informar na QUERY qual colunas desejamos utilizar como forma de agrupamento. Essas colunas precisam estar declaradas posteriormente através do GROUP BY. Exemplo:
+
+    SELECT AVG(nota), cidade, estado --AVG é a função de agregação sendo utilizada na coluna nota. As colunas cidade e estado serão as colunas utilizadas como agrupamento
+    FROM cliente
+    GROUP BY cidade, estado --Precisamos informar as mesmas colunas aqui para que a QUERY funcione
+
+    Essa consulta irá exibir a média das notas na primeira coluna, a cidade na segunda coluna e o estado na terceira coluna.
+
+TEORIA DOS CONJUNTOS
+
+    INNER JOIN: são as informações que pertencem de forma simultânea a um conjunto A e B. Em outras palavras, são as chaves estrangeiras existentes entre as tabelas A e B.
+
+    LEFT JOIN: são as informações existentes no conjunto A.
+
+    RIGHT JOIN: são as informações existentes no conjunto B.
+
+APELIDANDO TABELAS, COLUNAS E FUNÇÕES DE AGREGAÇÃO
+
+    Uilizaremos o AS:
+
+    SELECT nome_empresarial AS nome
+    FROM cliente;
+
+    SELECT COUNT(nota) AS contagem, nota, nome_empresarial AS nome
+    FROM cliente
+    WHERE nota BETWEEN 3 AND 4
+    GROUP BY nota, nome; --não precisei escrever nome_empresarial pois eu dei um apelido
+
+    Esse apelido serve para rotular as colunas no relatório e pode ser utilizado posteriormente no programa.
+
+INNER JOIN
+
+    SELECT a.*, b.* --seleciona tudo do conjunto a e tudo do conjunto b
+    FROM cliente a --define a tabela cliente como conjunto a
+    INNER JOIN contato b ON a.id = b.id_cliente --define a tabela contato como conjunto b
+    --ON é o operador do INNER JOIN. Seguido do ON deve vir as colunas que são
+    WHERE a.id = 1;
+
+    SELECT a.nome_empresarial, a.cnpj, b.nome, b.departamento, b.telefone  --seleciona colunas desejadas
+    FROM cliente a --define a tabela cliente como conjunto a
+    INNER JOIN contato b ON a.id = b.id_cliente --define a tabela contato como conjunto b
+    --ON é o operador do INNER JOIN. Seguido do ON deve vir as colunas que são
+    WHERE a.id = 1;
+
+    INNER JOIN COM MAIS DE DUAS TABELAS:
+
+        SELECT DISTINCT a.nome_empresarial, a.cnpj, b.nome, c.*
+        FROM cliente a
+        INNER JOIN contato b ON a.id = b.id_cliente
+        INNER JOIN lancamento c ON a.id = c.id_cliente
+        WHERE a.id = 1;
+
+        Essa consulta irá trazer as informações de clientes, com seus contatos e os lançamentos que já ocorreram.
+        A consulta acima traz dados duplicados (mesmo com o DISTINCT) por conta da existencia de varios contatos para o cliente id 1. Por conta disso, ela repete os lançamentos para cada um dos contatos
+    
+    USO DO INNER JOIN PARA VALIDAR DADOS:   
+
+        Caso eu precise saber sobre clientes que possuem contato e lançamentos, mas não precise dos detalhes, apenas validar esses clientes, eu posso utilizar o INNER JOIN para complementar o meu SELECT:
+
+        SELECT DISTINCT a.nome_empresarial
+        FROM cliente a
+		INNER JOIN lancamento c ON a.id = c.id_cliente
+        INNER JOIN contato b ON a.id = b.id_cliente;
+
+        Nesse caso, eu coloquei apenas o a.nome_empresarial no SELECT, pois era o unico dado que eu precisava. Dessa forma, eu tenho certeza que esses clientes possuem contatos e lançamentos
+
+LEFT JOIN
+
+    O LEFT JOIN serve para exibir dados de uma tabela, independente da relação dela com outra tabela. Por exemplo: eu quero trazer todas as empresas. Caso uma empresa tenha contato, eu quero que a empresa e o contato sejam exibidos. Caso ela não tenha, eu ainda quero que a empresa seja exibida.
+
+    SELECT a.nome_empresarial, a.cnpj, b.nome, b.departamento --informa as colunas desejadas
+    FROM cliente a --informa a tabela base
+    LEFT JOIN contato b ON a.id = b.id_cliente; --informa a tabela que sera utilizada para o LEFT JOIN
+
+    O resultado dessa consulta trará todos os registros da tabela cliente (a) e também seus contatos(b) caso eles existam. Caso não existam, a coluna de contato será exibida como null.
+
+RIGHT JOIN
+
+    O RIGHT JOIN serve para exibir dados que existam na tabela b, mas que não necessariamente estejam na tabela a. Nesse caso, eu quero exibir todos os contatos da tabela contatos, tendo clientes associados ou não.
+
+    SELECT a.nome_empresarial, a.cnpj, b.nome, b.departamento --informa as colunas desejadas
+    FROM cliente a --informa a tabela base
+    RIGHT JOIN contato b ON a.id = b.id_cliente; --informa a tabela que sera utilizada para o RIGHT JOIN
+
+    O resultado irá trazer todos os contatos, possuindo clientes ou não. Caso o contato não possua clientes, as colunas de clientes irão ficar como null.
+
+SELF JOIN
+
+    O SELF JOIN é quanto temos um registro que tem uma chave estrangeira dentro da própria tabela. Um registro que possui um id pai. Então, o SELF JOIN pode ser usado com o INNER, LEFT e RIGHT JOIN para criar a combinação de resultados desejados. EXEMPLO:
+
+    SELECT a.*
+    FROM categoria a
+    INNER JOIN categoria b ON a.id_pai = b.id;
+
+    Esse código irá exibir apenas os registros de categoria que possuam um id pai que bata com um id da própria tabela.
+
+    SELECT a.*
+    FROM categoria a
+    LEFT JOIN categoria b ON a.id_pai = b.id;
+
+    Esse código irá exibir todos os registros da tabela, possuindo id pai ou não
+
+UNION
+    
+    O UNION é utilizado para combinar duas tabelas quando não existem chaves estrangeiras em comum. Ele trabalha combinando o retorno de dois SELECT. É importante que a quantidade de colunas retornadas nos dois SELECT seja a mesma. Exemplo:
+
+    SELECT cidade, estado FROM cliente
+    WHERE estado = 'SP'
+    UNION
+    SELECT cidade, estado FROM fornecedor
+    ORDER BY cidade, estado; --ordena alfabeticamente por cidade e depois por estado.
+
+    O UNION por padrão já aplica o DISTINCT, excluindo registros duplicados. Para exibir todos os registros, adicione ALL:
+
+    SELECT cidade, estado FROM cliente
+    WHERE estado = 'SP'
+    UNION ALL
+    SELECT cidade, estado FROM fornecedor
+    ORDER BY cidade, estado;
+
+    Caso eu precise incluir uma coluna no SELECT de uma tabela que não tenha em outra tabela:
+
+    SELECT cidade, estado, cpf FROM cliente
+    WHERE estado = 'SP'
+    UNION ALL
+    SELECT cidade, estado, NULL AS cpf FROM cliente --use 'NULL AS' seguido do nome da coluna usada no SELECT
+    WHERE estado = 'SP'
+    ORDER BY cidade, estado
+
+ANY e ALL para Sub-SELECT
+
+    Imagine uma situação onde eu preciso retornar da tabela 'pedido' todos os pedidos com CEPs de entrega no bairro do Morumbi e do Jardins... Mas, na tabela 'pedidos' eu não tenho uma coluna de bairro, logo eu preciso realmente utilizar a coluna do CEP. Escrever os CEPs em um IN() seria inviável. Para isso, podemos incluir um Sub-SELECT dentro do WHERE para retornar os argumentos necessários. Exemplo:
+
+    SELECT *
+    FROM pedido
+    WHERE cep ANY(SELECT cep
+                  FROM enderecos
+                  WHERE (bairro = 'Jardins'
+                  OR bairro = 'Morumbi')
+                  AND cidade = 'São Paulo')
+
+    Nesse exemplo, realizamos uma consulta dentro do WHERE para retornar a lista de CEPs.
+
+TRANSAÇÕES - BEGIN, COMMIT e ROLLBACK
+
+    As transações são utilizadas quando vamos executar uma série de alterações no banco de dados para concretizar uma ação, mas precisamos garantir que todas as ações serão bem sucedidas (caso contrário, cancela todas as alterações). EXEMPLO:
+
+    BEGIN; -- é um início de uma transação
+
+        --comando 1
+        UPDATE cliente
+        SET situacao = 'INATIVO'
+        WHERE id = 2;
+
+        --comando 2
+        INSERT INTO cliente
+        (nome_empresarial, cnpj, situacao)
+        VALUES
+        ('Auto Peças Mantiqueira', '123', 'ATIVO');
+    
+    COMMIT; -- se os comandos não retornarem erro, o commit confirma a transação
+
+    ROLLBACK; -- caso algum erro ocorra, o Rollback desfaz tudo
+
+FUNÇÕES
+
+    É possível criar funções no banco de dados. Exemplo:
+
+    CREATE OR REPLACE FUNCTION totalClientes (s varchar) --cria ou substitui uma função com esse nome. também informa que a função irá receber um parametro s do tipo varchar
+    RETURNS integer AS $total$ --informa que o retorno será um valor do tipo inteiro. $total$ marca o inicio do bloco de código da função
+    DECLARE
+        total integer; -- declara uma variável do tipo inteiro chamada de total
+    BEGIN -- inicia o bloco de código principal da função
+        SELECT COUNT(*) INTO total
+            FROM cliente
+            WHERE situacao = s;
+
+        RETURN total; --retorna a variável declarada
+    END; --finaliza o bloco de código principal da função
+    $total$ --marca o fim do bloco de código da função
+    LANGUAGE plpgsql; -- informa a linguagem em que a função foi escrita
+
+    IMPORTANTE: o bloco da função deve estar dentro de $total$..$total$
+
+    Basta executar esse comando para criar essa função no Banco de dados. Uma vez criada, é só chamá-la:
+
+    SELECT totalClientes('ATIVO'); --'ATIVO' será o argumento s que a função recebe
+
+TRABALHANDO COM datas
+
+    Formato de data de entrada e saída do banco de dados:
+    yyyy-mm-dd
+    yyyy - ano com 4 digitos
+    mm - mês com 2 digitos (inicia com zero)
+    dd - dia com 2 digitos (inicia com zero)
+
+        INSERT INTO <tabela> (<coluna>)
+        VALUES ('2012-06-01');
+
+    Caso o cliente informe a data em um formato diferente, devemos fazer o parser (converção):
+
+        INSERT INTO <tabela> (<coluna>)
+        VALUES (to_date('01/06/12', 'DD/MM/YY')); --coloque a data recebida e informe para o BD o formato
+
+    Podemos utilizar o to_date para exibir datas em um formato mais familiar para o cliente. Exemplo:
+
+        SELECT (to_date(<coluna>, 'DD/MM/YY')) --selecione a coluna e indique o formato de saída
+        FROM <tabela>;
+
+    Somar datas:
+
+        SELECT <coluna 1>
+        FROM <tabela>
+        WHERE <coluna 2> >= '2012-01-01' + interval '1 year' --utilize a função interval para especificar o período desejado
+
+    Função NOW() - Pega a data atual do banco de dados
+
+        SELECT <coluna 1>
+        FROM <tabela>
+        WHERE <coluna 2> >= NOW();
+
+ENUM PARA NORMALIZAR VALORES
+
+    Para criar um ENUM que permita apenas determinados valores, devemos criar um type e depois utilizar ele na criação da tabela. EXEMPLO:
+
+        CREATE TYPE situacao_type AS ENUM ('ATIVO', 'INATIVO'); --isso cria o type
+
+        CREATE TABLE categora (
+            id SERIAL PRIMARY KEY,
+            nome VARCHAR(255) NOT NULL,
+            situacao situacao_type NOT NULL, --atribuimos o type na coluna desejada
+        );
+
+

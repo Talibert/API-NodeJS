@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+
+        //declaração de funções:
+        function sayHello() {
+            console.log("teste")
+        }
+
+        //chamdando uma função:
+        sayHello()
+
+        //declaração de funções com parâmetros:
+        function sayHelloP(name, lastName) {
+            console.log(`olá ${name} ${lastName}, bem vindo!`)
+        }
+        
+        //chamando a função com um parâmetro
+        sayHelloP("Guilherme", "Taliberti")
+
+        //funções com retorno
+        function soma(n1, n2) {
+            const resultado = n1 + n2
+            return resultado //retorna o valor da variável resultado
+        }
+
+        const resultado = soma(1, 2) //armazena o retorno da função na variável resultado
+        //a variável resultado acima não a mesma da função soma. São escopos diferentes, portanto são variáveis diferentes
+        console.log(resultado)
+
+        //utilizando arguments
+        //o arguments é utilizado quando não sabemos a quantidade exata de argumentos que serão passados
+        //ele armazena todos os argumentos em uma espécie de array:
+        function somaArg() { //não precisamos declarar parâmetros
+            let resultadoArg = 0 //inicializando a variável que vai receber a soma
+            for (const sum of arguments) {
+                resultadoArg += sum
+            }
+            return resultadoArg
+        }
+
+        const resultadoArg = somaArg(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        console.log(resultadoArg)
+
+        //IMPORTANTE:
+        //Variáveis comuns, quando enviadas para funções, passam apenas seu valor
+        //Isso significa que a variável original continua com o mesmo valor, ficando intacta fora do escopo
+        //Quando passamos uma variável do tipo objeto para uma função, é enviada a referência do objeto
+        //Portanto, qualquer alteração que ocorra dentro da função será refletida no objeto original
+        //Mesmo fora do escopo, ele irá mudar.
+        function testeObj (obj) {
+            obj.value = 80 //modificamos a referência value para 80
+            return obj //retornamos a referência que agora está alterada
+        }
+
+        const varObj = {
+            value: 10 //declaramos o objeto com value valendo 10
+        }
+        console.log(varObj) //print antes da modificação
+        console.log(testeObj(varObj)) //print na chamada da função
+        console.log(varObj) //print depois da modificação
+
+        //também podemos passar outras funções na lista de argumentos para uma função
+        //fazendo isso, a função passa a ter acesso a função que está em seus argumentos
+        //podemos então executar o callback - entrar em uuma função, chamar outra e depois voltar para a primeira
+
+        //podemos converter valores para mudar o tipo da variável
+        //quando nós forçamos essa conversão no código, isso é chamado de Type Casting:
+        console.log("2" + 2) //essa operação dará 22, pois o JS converte o número para string e concatena
+        console.log(Number("2") + 2) //aqui, a função number força a conversão de string para number e retorna 4
+
+        //a seguir, uma sessão de conversões:
+        //Number para String:
+        console.log(typeof Number("2"))
+        
+        //String para Number:
+        console.log(typeof String(2))
+
+        //String para Boolean
+        console.log(typeof Boolean(""), Boolean(""))
+        console.log(typeof Boolean("abc"), Boolean("abc"))
+        
+        //Number para Boolean
+        console.log(typeof Boolean(0), Boolean(0))
+        console.log(typeof Boolean(1), Boolean(1))
+
+        //Boolean para Number
+        console.log(typeof Number(true), Number(true))
+        console.log(typeof Number(false), Number(false))
+
+        //Boolean para String 
+        console.log(typeof String(false), String(false))
+        console.log(typeof String(true), String(true))
+
+        //String para Date
+        console.log(new Date())//retorna a data atual do computador que está rodando o código
+        console.log(new Date("05/27/2023"))//precisamos escrever no formato ISO, com o mês antes
+        console.log(new Date("2023-05-27"))//forma alternativa de escrever
+        console.log(new Date("2023 05 27"))//forma alternativa de escrever
+        //converter String para Date é interessante para calcular datas
+
+        //Date para String
+        console.log(new Date().toString())//transforma para String
+        console.log(new Date().toISOString())//transforma para String no formato ISO
+
+        //String para Array
+        let nameString = "Guilherme Taliberti"//Declaro uma String
+        console.log(nameString.split(" "))//chamo o método split e passo como argumento o que separa os elementos
+        //Nesse caso, o que separa os elementos é um espaço
+
+        //Array para String
+        let nameArray = ["Guilherme", "Eduardo", "Queiroz", "Taliberti"]
+        console.log(nameArray)
+        console.log(nameArray.join(" "))
+
+        //trabalhando com números com casas decimais
+        let valueNF = 2345.56
+
+        console.log(valueNF)
+        console.log(valueNF.toFixed(1))//o método .toFixed define quantas casas travadas terão depois da virgula
+        console.log(Math.ceil(valueNF))//transforma em inteiro e arredonda para cima
+        console.log(Math.floor(valueNF))//transforma em inteiro e arredonda para baixo
+        //para transformar o número em moeda, utilizamos a API Intl
+        console.log(
+            new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+            }).format(valueNF)
+        )
+        
+        //Manipulação de Strings com join e split é importante para lidar com APIs
+        let fraseSJ = "Frase para teste split e join"
+        console.log(fraseSJ)
+        console.log(fraseSJ.split(" ").join("-"))//aqui eu troco os espaços por traços
+        console.log(fraseSJ.toLowerCase())//tudo em minúsculo
+        console.log(fraseSJ.toUpperCase())//tudo em maiúsculo
+        
+        //podemos verificar se determinada string possui ou não um conteúdo desejado:
+        console.log(fraseSJ.includes("teste"))//retorna true
+        console.log(fraseSJ.includes("Guilherme"))//retorna false
+        console.log(fraseSJ.toUpperCase().includes("FRASE"))//é bom criar um padrão pois esse método é case sensitive
+
+        //podemos substituir partes de uma frase por outras partes:
+        console.log(fraseSJ.replace("split e join", "de replace"))
+
+        //uso do JSON - JavaScript Object Notation
+        //o JSON converte objetos do JS em strings para que outras linguagens possam realizar a conversão
+        //podemos transformar objetos em strings do tipo JSON e strings do tipo JSON em objetos
+        //JSON.stringify - transforma objeto em string
+        //JSON.parse - transforma string em um objeto
+
+        //métodos para manipulação de arrays:
+        let exempleArray = ["Guilherme", "Juliana", "Silvio", "Malu"]
+        console.log(exempleArray.length)//retorna o tamanho do array
+        console.log(exempleArray[2])//retorna o terceiro elemento, pois o primeiro é o indice 0
+        console.log(exempleArray.slice(1,3))//pega uma fatia do array, começando do segundo elemento e indo até o terceiro
+
+        exempleArray.push("Taliberti") //adiciona um elemento no final do array
+        exempleArray.unshift("Camilla") //adiciona um elemento no inicio do array
+
+        exempleArray.pop() //remove o último elemento do array
+        exempleArray.shift() //remove o primeiro elemento do array
+
+        exempleArray.splice(1, 3) //remove do indice 1 até o indice 3
+        console.log(exempleArray)
+
+        let indexArray = exempleArray.indexOf("Guilherme")//podemos utilizar o método indexOf para buscar um
+        //elemento em um array. Aqui eu atribui o indice do array que contem Guilherme na váriavel indexArray
+
+        exempleArray.splice(indexArray, 1)//Aqui eu passei essa variável na função splice para poder remover
+        //um elemento especifico do array
+
+        console.log(exempleArray)
+
+        //para juntar dois arrays sem criar uma string:
+        let array1 = [1,2,3,4,5]
+        let array2 = [6,7,8,9,10]
+        let array3 = [11,12,13,14,15]
+        console.log(array1.concat(array2))//utilizo o método concat e passo o segundo array como argumento
+        console.log(array1.concat(array2.concat(array3)))//concatenaçào de 3 arrays
+
+        //Podemos desestruturar arrays. Isso é criar um array de variaveis e atribuir os valores do array à elas
+        //isso ocorre na mesma ordem. Exemplo:
+        let [n1, n2] = array1 //declarei um array de variáveis e atribui um array
+        console.log(n1, n2) //os dois primeiros valores do array passaram para as duas primeiras variáveis
+
+        //uso do FILTER. O filter tem o papel de filtrar elementos e retorná-los em um novo array
+        let arrayFilter = [5, 8, 10, 11, 23, 45]
+
+        let resFilter = arrayFilter.filter((a) => a > 10) //utilizamos o método filter
+        //o método filter pega o elemento do array e joga dentro do argumento da função arrow
+        //a função arrow faz a comparação e retorna true ou false
+        //caso o retorno seja true, o valor é armazenado na variável declarada no inicio
+
+        //exemplo: dado o array de objetos, filtre pessoas com 18 anos ou mais:
+        const peopleFilter = [
+            {name: "Guilherme", idade: 22},
+            {name: "Juliana", idade: 40},
+            {name: "Silvio", idade: 45},
+            {name: "Malu", idade: 5},
+        ]
+
+        let resPeopleFilter = peopleFilter.filter((p) => p.idade >= 18)
+        //o método filter recebe o array de objetos e por isso tem acesso ao atributo idade
+
+        //uso de MAP
+        //o método map serve para modificar os elementos de um array e retorná-los em um novo array
+        let arrayMap = [12, 23, 34, 45, 67]
+
+        let resMap = arrayMap.map((a) => a * 2) //método map no array e passamos como argumento a função
+        console.log(resMap)
+
+        //declarando um array de pessoas
+        const peopleMap = [
+            {name: "Guilherme", idade: 22},
+            {name: "Juliana", idade: 40},
+            {name: "Silvio", idade: 45},
+            {name: "Malu", idade: 5},
+        ]
+
+        //Utilizando map para transformar todos os nomes em letras maiusculas
+        let resPeopleMap = peopleMap.map ((p) => p.name.toUpperCase())
+        console.log(resPeopleMap) 
+        
+        //uso do Reduce
+        //podemos reduzir arrays utilizando o reduce:
+        let arrayReduce = [1, 3, 4, 6, 7]
+        //precisamos chamar uma função callback e passar o valor do acumulator, que geralmente é 0
+        let resReduce = arrayReduce.reduce((acumulator, currentValue) => acumulator + currentValue, 0)
+        console.log(resReduce)
+
+        
+    </script>
+</body>
+</html>

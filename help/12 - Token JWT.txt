@@ -1,0 +1,14 @@
+1 - Devemos criar um novo Controller chamado SessionsController.js
+
+2 - adicione a biblioteca com o comando "yarn add jsonwebtoken"
+
+3 - Esse controller deve ter o método create. Esse método irá criar um token caso o usuário
+    forneça suas informações de cadastro corretamente
+
+3 - no insomnia, o token retornado pela rota sessions deve ser passado no "Bearer" da aba "Auth"
+
+4 - Devemos criar a pasta middlewares dentro da pasta app e criar um arquivo chamado auth.js
+    Essa middleware deve interceptar a rota e verificar se ela contém um token válido.
+    
+5 - Dentro da pasta config, devemos criar outro arquivo chamado auth.js que irá conter a hash e
+    o tempo que o token demorará para expirar. Essas informações serão exportadas para o arquivo auth.js da pasta middleware, para fins de deixar o código mais organizado.

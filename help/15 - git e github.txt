@@ -1,0 +1,19 @@
+1 - Baixe o Git para o windows
+
+2 - Marque a opção "add a git bash profile to windows terminal
+
+3 - Após a instalação, abra o aplicativo Git Bash
+
+4 - digite "git config --global user.name "Guilherme Taliberti"
+
+5 - digite "git config --globar user.email "guilhermetaliberti@gmail.com"
+
+6 - digite "cd Documents" para ir ao diretório dos documentos do computador
+
+7 - digite "mkdir repositories" para criar uma pasta chamada repositories
+
+8 - digite "cd repositories" para entrar na pasta repositories que foi criada
+
+9 - quando estiver dentro da pasta repositories no git bash, dê o comando "code ." para abrir o visual studio code naquela pasta
+
+10 - para clonar um projeto do github, devemos copiar a URL com o protocolo desejado e dar o comando "git clone URL COPIADA"

@@ -1,0 +1,24 @@
+1 - Para instalar o prettier, abra o diretório do projeto no terminal do VSCode e digite o seguinte comando: yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+
+2 - Em seguida, vá no arquivo eslint e adicione o prettier na sessão de extensões e crie a sessão
+plugins e também adicione o prettier nela. Vai ficar assim:
+
+        extends: ['airbnb-base', 'prettier'],
+        plugins: ["prettier"],
+
+3 - Na sessão de rules, adicione:
+        "prettier/prettier": [
+        "error",
+        {
+            endOfLine: "auto",
+        },
+        ]
+
+4 - Crie o arquivo .prettierrc e adicione o seguinte código:
+        { 
+            "singleQuote": false,
+            "trailingComma": "es5"
+        }
+
+5 - Para que o prettier seja executado junto com o eslint em todas as pastas do projeto, cole o seguinte comando
+no terminal: yarn eslint --fix src --ext .js // o src é a pasta, portanto pode mudar de projeto para projeto

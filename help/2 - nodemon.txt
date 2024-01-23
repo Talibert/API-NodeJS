@@ -1,0 +1,16 @@
+1 - Digite PowerShell na barra de pesquisa e execute como adm
+
+2 - Cole isso "Get-ExecutionPolicy" e veja se a resposta é "Restricted". Caso for, cole "Set-ExecutionPolicy Unrestricted" e digite "S"
+
+3 - No terminal do VSCode, digite "yarn add nodemon -D"
+
+4 - Em seguida, digite "npx nodemon index.js" ou "nodemon index.js"
+
+5 - No package.json inclua o script:
+  "scripts": {
+    "dev": "nodemon index.js"
+  }
+
+6 -  digite no terminal "yarn dev"
+
+7 - digite também "yarn add date-fns" para instalar no package.json a biblioteca responsável por trabalhar com datas

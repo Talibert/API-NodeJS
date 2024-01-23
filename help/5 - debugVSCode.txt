@@ -1,0 +1,15 @@
+1 - Pare a execução do nodemon digitando CTRL+C no terminal
+
+2 - Clique no inseto na barra esquerda e crie um launch.json usando a opção nodejs
+
+3 - A partir de agora, devemos usar a aba Debug Console ao invés da aba terminal
+
+4 - Clicar no play da opção Launch Program
+
+5 - Marcar o breakpoint na linha escolhida do programa e executar a requisição no insomnia
+
+6 - É possível verificar as informações na aba do debug.
+
+7 - O insomnia ficará esperando o nosso play na barra de navegação para finalizar a execução.
+
+8 - Para finalizar o debug, clique no botão de parar da barra de navegação e digite o yarn dev no terminal novamente

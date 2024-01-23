@@ -1,0 +1,17 @@
+O nodemailer é utilizado para o envio automatico de e-mail para os usuários cadastrados no sistema
+
+1 - adicione o nodemailer com "yarn add nodemailer"
+
+2 - dentro da pasta src, crie uma pasta chamada "lib" com um arquivo chamado "Mail.js"
+
+3 - Crie uma conta no mailtrap
+
+4 - Crie uma inbox
+
+5 - Selecione a tecnologia usada para poder visualizar o código de setup
+
+6 - Crie dentro da pasta config outro arquivo chamado Mail.js. Esse arquivo irá conter os dados necessários para a conexão com o servidor SMTP. Essas credenciais são obtidas no inbox no mailtrap
+
+7 - Configure o arquivo mail.ks que está na pasta lib e depois chame o método send onde for conveniente no programa.
+
+

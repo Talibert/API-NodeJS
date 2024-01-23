@@ -1,0 +1,23 @@
+Para criar ou atualizar dados no Banco de dados, é interessante criar schemas para validar as informações enviadas na requisição. Isso é feito para garantir que a operação no BD só será executada caso todas as informações necessárias e válidas para a operação sejam informadas.
+
+Para criar schemas, utilizaremos a lib Yup.
+
+1 - Digite no terminal do projeto o comando "yarn add yup"
+
+2 - No arquivo JS em que seu schema será criado, importe o yup utilizando o comando "import * as Yup from "yup";"
+
+3 - Segue abaixo um exemplo de schema: 
+
+        // O schema é declarado
+        const schema = Yup.object().shape({
+            name: Yup.string().required(), // name deve ser string e é obrigatório
+            email: Yup.string().email().required(), // email é string, deve ser email e é obrigatório
+            status: Yup.string().uppercase(), // status é uma string e irá entrar em letra maiuscula
+        });
+
+        // Código que irá rodar caso o schema não seja válido
+        if (!(await schema.isValid(req.body))) {
+            return res
+                .status(400)
+                .json({ error: "Erro na validação do esquema." });
+        }

@@ -1,0 +1,16 @@
+ID,Nome,Departamento,CPF,E-mail,Telefone,Situação,ID Cliente
+1,Martin Carlos Baptista,Comercial,539.909.612-92,martincarlosbaptista@piscinasegura.com.br,(61) 99984-3946,ATIVO,1
+2,Antônia Sophia Porto,Diretoria,210.038.100-80,antoniasophiaporto-84@novotempo.com,(21) 98789-7435,ATIVO,1
+3,Isaac Danilo da Rosa,Compras,792.786.490-40,isaacdanilodarosa-84@iclud.com,(14) 98181-7387,ATIVO,1
+4,Edson Benedito Paulo Rodrigues,,035.193.976-84,edsonbeneditopaulorodrigues@vinax.com.br,(27) 98639-2076,ATIVO,1
+5,Caio Anthony Daniel Silva,Técnico,102.331.585-88,caioanthonydanielsilva-92@land.com.br,(77) 99918-4390,ATIVO,2
+6,Manuela Aline Natália Jesus,Compras,405.298.197-91,manuelaalinenataliajesus_@mls.com.br,,ATIVO,2
+7,Allana Vitória Elisa Peixoto,,592.056.118-16,allanavitoriaelisapeixoto_@engeseg.com.br,(21) 98611-2887,ATIVO,3
+8,Pietro Anderson Osvaldo Costa,,073.204.307-70,pietroandersonosvaldocosta@cursomarcato.com.br,(79) 99215-0924,ATIVO,4
+9,Natália Allana Viana,Diretoria,064.206.928-06,nataliaallanaviana@harmoniacontabil.com.br,(81) 99807-3263,INATIVO,5
+10,Laura Sarah Moura,Compras,668.795.737-62,maiteclariceheloisaassuncao_@directnet.com,(19) 98688-2949,ATIVO,5
+11,Enzo Arthur Matheus Gomes,,902.618.848-08,enzoarthurmatheusgomes_@editorazap.com.br,,ATIVO,6
+12,Emanuel Benedito Murilo Nogueira,,517.327.150-76,eemanuelbeneditomurilonogueira@hormail.com,,ATIVO,7
+13,Caleb Miguel Noah Almada,,759.252.189-06,calebmiguelnoahalmada@boll.com.br,,ATIVO,8
+14,Manoel Anderson da Conceição,,706.019.010-45,manoelandersondaconceicao-92@prokopetz.com.br,,ATIVO,9
+15,Marcos Vinicius Filipe Gonçalves,,278.518.657-51,,(67) 99563-1342,ATIVO,10

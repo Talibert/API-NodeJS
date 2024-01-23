@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Ping Pong</title>
+    <style>
+       *{
+        overflow: hidden; /*esconde o resto do conteúdo para não aparecer barras de rolagem*/
+        margin: 0; /*zera a margem de todos os objetos (margem é externa à box) */
+        padding: 0; /*zera o padding de todos os objetos (padding é interno à box) */
+       }
+    </style>
+</head>
+<body>
+
+    <canvas></canvas> <!--define o elemento canvas-->
+    
+    <script>
+        const canvasEl = document.querySelector("canvas") //joga o elemento canvas dentro da const canvasEl
+        const canvasCtx = canvasEl.getContext("2d") //define o contexto do canvas como 2d
+        
+        const mouse = {
+            x: 0, 
+            y: 0
+        } //criamos uma constante mouse para atribuir um valor inicial aos eixos
+
+        //Objeto campo
+        const field = {
+            w: window.innerWidth, //transformamos a largura em um atributo
+            h: window.innerHeight, //transformamos a altura em um atributo
+            draw: function () {
+                //desenhando o campo verde
+                canvasCtx.fillStyle = "#286047" //define a cor do retangulo
+                canvasCtx.fillRect(0, 0, this.w, this.h) //define o retangulo
+                //utilamos o this para referenciar propriedades internas
+                //dois primeires valores são o ponto inicial e os dois últimos são largura e altura
+                //0, 0 representa o canto superior esquerdo da forma do retangulo
+            }
+        }
+
+        //Objeto linha central
+        const line = {
+            w: 15, //transformamos a largura em um atributo
+            h: field.h,
+            draw: function () {
+                canvasCtx.fillStyle = "#ffffff" //define a cor da linha que divide o campo
+                canvasCtx.fillRect(field.w /2 - this.w / 2, 0, this.w, field.h)
+                //o primeiro argumento define o ponto x. É a largura do campo divido por 2, menos a largura da linha divida por dois
+                //o segundo argumento define o ponto y, que é 0 pois a linha vai começar no topo
+                //o terceriro argumento é a largura da linha, que é exatamente a constante que criamos
+                //o quarto argumento é a altura da linha, que é a altura total da página
+            }
+        }
+
+        //Objeto raquete esquerda
+        const leftRacket = {
+            y: 0, //transformamos a posição em y em um atributo
+            w: line.w,
+            gapx: 10, //transformamos o gap em um atributo
+            h: 200, //transformamos a altura em um atributo
+            _move: function () {
+                this.y = mouse.y
+            },
+            draw: function () {
+                canvasCtx.fillStyle = "#ffffff" //define a cor da linha que divide o campo
+                canvasCtx.fillRect(this.gapx, this.y, this.w, this.h)
+                //this._racketAuto ()
+                this._move()
+            }
+
+        }
+
+        //Objeto raquete direita    
+        const rightRacket = {
+            x: field.w - leftRacket.gapx - line.w, //transformamos a posição x em um atributo
+            y: 400, //transformamos a posição em um y em um atributo
+            h: leftRacket.h,
+            //a raquete esquerda é controlada pelo computador.
+            //definiremos que o eixo y da raquete irá seguir o eixo y da bolinha
+            _move: function () {
+                this.y = ball.y
+            },
+            draw: function () {
+                canvasCtx.fillStyle = "#ffffff" //define a cor da linha que divide o campo
+                canvasCtx.fillRect(this.x, this.y, line.w, this.h)
+                this._move()
+            }
+        }
+
+        //Objeto placar
+        const score = {
+            human: 0,
+            computer: 0,
+            h: 50,
+            scoreHuman: function () {
+                score.human += 1
+            },
+            scoreComputer: function () {
+                score.computer +=1
+            },
+            draw: function () {
+                canvasCtx.font = "bold 72px Arial" //define a fonte que será usada
+                canvasCtx.textAlign = "center" //define o alinhamento do texto
+                canvasCtx.textBaseline = "top" //define o alinhamento vertical do texto
+                canvasCtx.fillStyle = "#01341D" //define a cor do placar
+                canvasCtx.fillText(this.human, field.w / 4, this.h) //cria o placar do campo esquerdo
+                canvasCtx.fillText(this.computer, field.w / 4 * 3, this.h) //criar o placar do campo direito
+                //primeiro argumento é o valor que será exibido
+                //segundo argumento é a posição x do valor
+                //terceiro argumento é a posição y
+            },
+
+        }
+
+        //Objeto bola
+        const ball = {
+            x: field.w / 2, //transformamos a posição x em um atributo
+            y: field.h / 2, //transformamos a posição y em um atributo
+            r: 20,
+            directionX: -1, //representa o sentido da bolinha em x (positivo é para direita)
+            directionY: 1, //representa o sentido da bolinha em y (positivo é para baixo)
+            speed: 15, //transformamos speed em um atributo para poder controlar a velocidade depois
+            //a função _move irá incrementar 1px na posição da bolinha nos eixos x e y
+            //verifica se a bolinha bateu nas laterais superior e inferior do campo e chama _reverseY
+            _calcPosition: function () {
+                //condição de ponto humano
+                if(this.x > field.w + this.r) {
+                    score.scoreHuman()
+                    this._centerBall()
+                }
+                //condição de ponto computador
+                if(this.x < this.r) {
+                    score.scoreComputer()
+                    this._centerBall()
+                }
+                //condição de reversão lateral
+                if(
+                   (this.y < this.r && this.directionY < 0) || //primeira condição do if
+                   (this.y > field.h - this.r && this.directionY > 0) //segunda condição do if
+                ){
+                    this._reverseY()
+                }
+            },
+            //quando a bolinha bate na lateral, essa função é chamada e ela inverte o sentido do Y
+            _reverseY: function () {
+                this.directionY *= -1
+            },
+            _reverseX: function () {
+                this.directionX *= -1
+            },
+            _centerBall: function () {
+                this.x = field.w / 2
+                this.y = field.h / 2
+            },
+            _leftColision: function () {
+                if (
+                    (this.x <= leftRacket.gapx + line.w + this.r) &&
+                    (this.y > leftRacket.y && this.y < leftRacket.h + mouse.y)
+                    ) {
+                    this._reverseX()
+                }
+            },
+            _rightColision: function () {
+                if (
+                    (this.x >= rightRacket.x - line.w - this.r) &&
+                    (this.y >= rightRacket.y && this.y <= rightRacket.y + rightRacket.h)
+                    ) {
+                    this._reverseX()
+                }
+            },
+            _move: function () {
+                this.x += this.directionX * this.speed
+                this.y += this.directionY * this.speed	
+            },
+            draw: function () {
+                canvasCtx.beginPath() //precisamos dar esse comando para iniciar o desenho do circulo
+                canvasCtx.arc(this.x, this.y, this.r, 0, 2.0*Math.PI, false)
+                //primeiro argumento é a posição horizontal
+                //segundo argumento é a posição vertical
+                //terceiro argumento é o raio do circulo
+                //quarto argumento é o ponto inicial do circulo (ponto 0)
+                //quinto argumento é o preenchimento do circulo (2*Math.PI significa um circulo completo)
+                //sexto argumento diz se é sentido horário ou anti-horário (false é sentido horário)
+                canvasCtx.fill() //preenche o circulo
+                
+                this._move ()
+                this._calcPosition ()
+                this._leftColision()
+                this._rightColision()
+            }
+        }
+
+        function setup(){
+            canvasEl.width = window.innerWidth
+            canvasCtx.width = window.innerWidth
+            canvasEl.height = window.innerHeight
+            canvasCtx.width = window.innerHeight
+        }
+
+        function draw(){
+            field.draw()
+            
+            line.draw()
+            
+            leftRacket.draw()
+
+            rightRacket.draw()
+
+            ball.draw()
+
+            score.draw()
+        }
+
+        //essa função é uma receita pronta para suavizar a animação dos objetos em movimento na tela
+        window.animateFrame = (function () {
+            return (
+                window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function (callback) {
+                    return window.setTimeout (callback, 1000/60)
+                }
+            )
+        })()
+
+        function main () {
+            animateFrame(main)
+            draw()
+        }
+
+        setup()
+        main()
+
+        //Adicionamos um observador para o mouse
+        //Adicionamos um método que chama um observador para monitorar o evento mousemove
+        canvasEl.addEventListener("mousemove", function (mouseMovement){
+            mouse.x = mouseMovement.pageX //atribui ao valor x do mouse a posição que o mouse ocupa na tela no eixo x
+            mouse.y = mouseMovement.pageY - leftRacket.h / 2//atribui ao valor y do mouse a posição que o mouse ocupa na tela no eixo y
+        })
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+1 - O ESLint precisa ser adicionado ao projeto como uma dev dependence. Para isso, abra o diretório do projeto no terminal e digite yarn add eslint -D
+
+2 - Verifique se ele aparece no arquivo package.json
+
+3 - Abra o diretório do projeto e digite yarn eslint --init
+
+4 - Na sequencia, uma série perguntas será feita. Responda as perguntas de acordo com suas necessidades. Verifique o vídeo do Samurai caso queira copiar
+
+5 - Um arquivo chamado package-lock.json será criado
+
+6 - Nesse caso, estamos usando o yarn e o package-lock.json foi criado pelo NPM. Para que não haja conflitos, apague o package-lock.json e digite yarn no terminal com o diretório do projeto. Isso irá atualizar o yarn com as informações inseridas do eslint
+
+7 - Após isso, verifique se o eslint aparece nas dev dependencies do package.json
+
+8 - Com tudo correto, vá na loja do vscode e instale a extensão do ESLint
+
+9 - Após instalar, vá nas configurações do VSCode (File, Preferences, Settings), clique no canto superior esquerdo para abrir o arquivo settings.json
+
+10 - Lá, cole o seguinte código:
+
+        "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+        },
+        "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+        ]
+        "editor.wordWrap": "on"
+
+11 - Em seguida, vá no arquivo .eslintrc.js e cole as seguintes linhas na sessão rules:
+    
+        'class-methods-use-this': 'off', // não precisa usar this nos métodos de classe
+        'no-param-reassign': 'off',
+        camelcase: 'off',
+        'no-unused-vars': ['error', { argsIgnorePattern: 'next' }], // não dar erro 
+        'linebreak-style': 0,
+        radix: 'off',
+        'no-console': ['error', { allow: ['log', 'error', 'debug'] }],

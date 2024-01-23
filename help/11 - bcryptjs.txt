@@ -1,0 +1,9 @@
+O Bcrypt.js é uma biblioteca utilizada para criar hashs de passwords.
+Não devemos armazenar no banco de dados a senha real que o usuário digitou. Portanto, o programa deve receber a senha original e aplicar uma criptografia para armazená-la no BD.
+Futuramente, sempre que o usuário digitar a senha original, o programa irá criptografá-la e comparar com a versão armazenada.
+
+Em resumo, o BD recebe e compara apenas Hash. O password real nunca entra no BD
+
+1 - abra o terminal e digite "yarn add bcryptjs"
+
+2 - importe a bibliteca no arquivo js desejado com o comando "import bcrypt from "bcryptjs""

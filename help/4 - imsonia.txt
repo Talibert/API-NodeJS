@@ -1,0 +1,7 @@
+1 - No imsonia podemos realizar requisições de rotas para realizar testes
+
+2 - Abra o imsonia, mude para o modo debug, crie uma New Request e passe a rota desejada
+
+3 - O Imsonia irá retornar a resposta em JSON
+
+4 - Podemos através da aba Query passar as variáveis e os valores desejados

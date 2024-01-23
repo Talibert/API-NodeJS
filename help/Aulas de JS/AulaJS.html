@@ -1,0 +1,192 @@
+<html>
+    <meta charset="UTF-8"/>
+    <script>
+        //console.log exibe mensagens no terminal
+        console.log("teste de mensagem")
+        // O atalho para criar comentários é CTRL+/
+        
+        console.log(1) //variável numérica
+        console.log("1") //variável do tipo string
+        console.log(true) //variável do tipo boolean
+        console.log(Infinity) //um tipo especial que ocorre em divisões por zero e deve ser tratado
+        console.log(NaN) //Not a Number. O JS retorna isso quando tentamos realizar uma conta que não tem número
+        console.log(null) //ausência de dados ou valores
+        console.log(undefined) //valor/variável indefinido
+        console.log({nome: "Guilherme", idade: 22}) //Definimos objetos dentro de {}
+        console.log([1,2,3]) // definimos nomes com []
+        console.log([1, 2, {nome: "Guilherme", idade: 22}]) // nomes complexo com um objeto dentro
+        console.log(Date()) //retorna a data e a hora atual
+
+        
+        //Para declararmos uma variável podemos usar var, const ou let
+        //uma variável var pode ser declarada no escopo global (dentro da tag <script>)
+        //ela pode ser acessada e modificada através de um escopo local (qualquer script dentro de {})    
+        var nome = "Guilherme" //podemos declarar variáveis com o prefixo var
+        
+        {
+            nome = "Guilherme Taliberti"
+
+            //Podemos também declarar uma variável em um escopo local, ler e acessá-la no escopo global
+            var idade = 18
+        }
+
+        idade = 22
+        //Portanto, podemos manipular variaveis do tipo var em qualquer lugar do programa
+
+        //uma variável let se comporta da mesma forma que a variável var quando é declarada no escopo global
+        //portanto, ela pode ser acessada e modificada através de escopos locais
+        //porém, se definirmos uma variável let dentro de um escopo local, não poderemos acessá-la do escopo global
+        {
+            let y = 10
+            console.log(y)
+        }
+        //console.log(y) - isso não irá funcionar pois o 
+
+        //uma variavel do tipo const não pode ser alterada, pois seu valor passa a ser fixo
+        //a const também não pode ser acessada fora de seu escopo local, igual a variavel do tipo let
+        const z = 20
+
+        //vamos declarar um objeto para usar no exemplo a seguir
+        const address = {
+            street: "Balbiani",
+            number: 109,
+            CEP: "03755080",
+            teste: {
+                prop1: 12,
+                prop2: 20
+            }
+        }
+
+        //a concatenação é a forma antiga de juntar strings com variáveis. A forma nova é chama de interpolação
+        //A interpolação deve ser feito da forma abaixo
+        //o conteúdo todo deve ficar dentro da crase e toda variável deve ficar dentro de ${}
+        //o console.log não consegue exibir um objeto, portanto devemos utilizar o JSON.stringify
+        var name = "Guilherme"
+        var age = "22"
+        console.log(`${name} tem ${age} anos e mora na ${JSON.stringify(address)}`)
+        
+        //declaração de nomes
+        const people = ["Guilherme", "Silvio", "Juliana"]
+        console.log(people)
+        console.log(people[0]) //acessa a primeira posição do nomes
+        people[2] = "Malu" //modifica a segunda posição do nomes
+        console.log(people.length) //retorna o tamanho do nomes
+
+        //abaixo um nomes de objetos
+        const objectArray = [
+            {name: "Guilherme", age: 22},
+            {name: "Juliana", age: 40}
+        ]
+        console.log(objectArray)
+
+        //a melhor forma de realizar comparações no JS é utilizando o operador de comparação estrita.
+        //para isso, devemos utilizar três sinais de igual -> === ou !==
+        //fazendo isso, o JS compara também o tipo da variável, além do conteúdo.
+        let numero = 2
+        let numeroS = "2"
+        numero === numeroS //falso
+        numero !== numeroS //verdadeiro
+
+        //exemplo de if else encadeado
+        if (6 > 5) {
+            console.log("verdadeiro")
+        } else if (7 < 9) {
+            console.log("verdadeiro")
+        } else {
+            console.log("falso")
+        }
+
+        //exemplo de estrutura de decisão simplificada, chamada de ternário
+        //o ternário é: variável = (condição) ? IF : ELSE
+        //ou simplesmente: condição ? IF : ELSE
+        let texto = "A"
+        let valor
+
+        valor = (texto == "A") ? valor = 10 : valor = 20
+        console.log(valor)
+
+        //outro exemplo:
+        texto == "A" ? console.log("VERDADEIRO") : console.log("FALSO")
+
+        //switch case
+        //o switch realiza uma comparação simples e define varias opções para valores diferentes
+        //cada opção é chamada de case e deve ser seguida pelo comando break. Break quebra a execução do switch
+        //caso nenhum case seja atendido, o switch pula para a opção default
+        let switchVar = 1
+        switch (switchVar){
+            case 1:
+                console.log("o valor é 1")
+                break
+            case 2:
+                console.log("o valor é 2")
+                break
+            case 3:
+                console.log("o valor é 3")
+                break
+            defaut:
+                console.log("nenhum condição atendida")
+                break                    
+        }
+        
+        //trycatch é um bloco que executa uma função e retorna uma instrução definida caso algum erro ocorra
+        //ele pode, opcionalmente, executar uma instrução no final
+        //o trycatch é, principalmente, utilizado na hora de realizar comunicação com serviços externos
+        
+        try {
+            //aqui executamos a comunicação ou a conexão externa
+            //vamos simular um erro
+            console.log ("consultando o banco de dados...")
+            throw "Erro 1032 ao conectar com o banco de dados" //o throw é o responsável por enviar o erro ao catch
+        } catch (error) { 
+            //aqui é a instrução que será executada caso algum erro ocorra
+            alert("erro de execução genérico.") //aqui mostra um alerta amigável ao usuário
+            console.error(error)//aqui retorna o erro técnico para o programador
+        } finally{ 
+            //o finally é opcional e é sempre executado no final
+            console.log("execução trycatch finalizada")
+        }
+
+        //o while executa seu loop enquanto a condição for verdadeira
+        let contador = 1
+        while (contador <=10) {
+            console.log(`executando ${contador}`) //usamos interpolação
+            contador++
+        }
+
+        //o for inicia a váriavel, define o limite e define a regra de incrementação
+        for (let i = 0; i <= 10; i++) {
+            console.log(`loop número ${i}`);
+        }
+        
+        //podemos utilizar o for para percorrer arrays, com a propriedade length
+        const nomes = ["guilherme", "juliana", "silvio"]
+
+        for (let index = 0; index < nomes.length; index++) {
+            const element = nomes[index];
+            console.log(element)
+        }
+
+        //Como a pratica acima é comum, podemos utilizar o for of.
+        //o for of define uma variável interna que irá automaticamente receber todos os indices do array
+        //um indice por iteração até que a array termine:
+        for (const nome of nomes) {
+            console.log(nome)
+        }
+
+        //assim como o for of faz a iteração automatica de elementos em um array
+        //o for in pode realizar a iteração automatica nos atributos de um objeto:
+        const personagem = {
+            name: "Guilherme",
+            age: 22,
+            gender: "M",
+            address: {
+                street: "rua balbiani",
+                number: 109
+            }
+        }
+        
+        for (const prop in personagem) {
+            console.log(`Prop ${prop} - ${personagem[prop]}`)
+        }
+    </script>
+</html>

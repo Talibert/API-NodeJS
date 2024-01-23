@@ -1,0 +1,32 @@
+.container {
+    background-color: aquamarine;
+    
+    display: flex;/*para trabalhar com as propriedades abaixo, devemos declarar o display como flex*/
+    
+    flex-direction: row; /*define a direção dos elementos dentro da div*/
+    
+    flex-wrap: wrap; /*faz uma quebra de linha para que os elementos dentro da div não saiam do espaço da div
+    por padrão, o valor é nowrap (não há quebra de linha)*/
+    /*tanto o flex-direction quanto o flex-wrap são aplicados no conteiner, mas controlam as divs internas*/
+    
+    flex-flow: row wrap; /*é uma junção do flex direction e do flex wrap*/
+    
+    justify-content: space-between; /*define como os elementos irão se posicionar com relação a justificação*/
+    /*a forma com que o justify-content trabalha depende do valor do flex-direction*/
+    
+    align-items: center; /*é responsável por manipular as divs no sentido vertical*/
+    
+    align-content: space-between; /*é o justify content para uso vertical*/
+
+}
+
+.div {
+    flex-grow: 1; /*define se o item irá ocupar o espaço disponível vazio na div*/
+    /*o flex grow permite dividir o espaço entre as divs, caso seja aplicado em mais de uma div*/
+    /*podemos definir a prioridade com o valor: 1, 2, 3...*/
+
+    flex-basis: 100px; /*define uma largura inicial para a div que será utilizada mesmo que a div não possua conteúdo*/
+
+    flex-shrink: 1; /*faz o inverso do flex-grow. Seu valor padrão é 1. Quanto maior o valor, menor a div*/
+    /*se o seu valor for zero, a div passa a ter o tamanho original e sai do conteiner*/
+}

@@ -1,0 +1,4 @@
+ID,Nome,Situação,Débito,Crédito,ID Pai
+1,Custo fixo,ATIVO,1,0,
+2,Pedidos,ATIVO,0,1,
+3,Custo variável,ATIVO,1,0,

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <button>Recuperar Dados</button>
+    <br />
+    <br />
+    <script>
+      //O Exercício consiste em recuperar dados de uma API do github e exibir na tela
+      //O objetivo é trabalhar com chamadas ajax para criar consultas que não necessitam de uma atualização
+      //geral na página para funcionar
+      //Isso permite criar sessões na página que se atualizam de forma dinâmica, sem interferir na navegação
+      //do usuário
+
+      //criando uma variável e atribuindo uma arrow function a ela para executar o procedimento
+      const loadData = () => {
+        const xhr = new XMLHttpRequest()//criando uma variável e atribuindo uma instância do XMLHttpRequest
+
+        //Utilizaremos o método open com "GET", seguido do link disponibilizado pela api do github
+        xhr.open("GET", "https://api.github.com/users/felipefontoura") //GET representa que queremos pegar info
+        xhr.send(null) //o método send precisa ser executado e, como não estamos enviando informação, pode ser declarado com null
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4) {
+            //fazemos o parse na string JSON recebida
+            const res = JSON.parse(xhr.responseText)//transformamos a string em objeto
+
+            //atribuimos os atributos do objeto para variáveis no programa
+            const name = res.name 
+            const avatarUrl = res.avatar_url
+            const followers = res.followers
+            const blogUrl = res.blog
+            
+            // console.log({ name, avatarUrl, followers, blogUrl })
+
+            // Criamos o elemento que irá receber a imagem recuperada
+            // <img src="https://avatars.githubusercontent.com/u/281622?v=4" width="128" />
+            const avatarEl = document.createElement("img") //criação do elemento img
+            avatarEl.setAttribute("src", avatarUrl) //atribuição da variável que contem a URL da imagem
+            avatarEl.setAttribute("width", "128") //definição do tamanho da imagem
+
+            // Criamos o elemento que irá receber o título do perfil
+            // <h1>Felipe Fontoura</h1>
+            const nameEl = document.createElement("h1") //criação do elemento h1
+            nameEl.innerText = name //atribuição da variável que contem o nome do perfil
+
+            // Criamos o parágrafo que irá receber a quantidade de seguidores
+            // <p>Followers: 207</p>
+            const followersEl = document.createElement("p") //criação do elemento p
+            followersEl.innerText = `Followers: ${followers}` //atribuição da variável que contem o num de seguidores
+
+            // Criamos o hyperlink que irá apontar para o blog do perfil
+            // <a href="https://devsamurai.com.br">devsamurai.com.br</a>
+            const blogEl = document.createElement("a") //criação do elemento a
+            blogEl.setAttribute("href", `https://${blogUrl}`) //A URL vem sem https://, por isso é importante concatenar
+            blogEl.innerText = blogUrl //definimos a própria URL como título
+            //innerText e innerHTML são utilizados para alterar o texto de exibição
+            //setAttribute é utilizado para inserir e modificar os atributos dos elementos
+
+            //inserimos os elementos criados na sessão body do HTML para exibir
+            document.body.appendChild(avatarEl)
+            document.body.appendChild(nameEl)
+            document.body.appendChild(followersEl)
+            document.body.appendChild(blogEl)
+          }
+        }
+      }
+
+      //Criamos uma variável para receber o botão da página
+      const buttonEl = document.querySelector("button")
+      
+      //Adicionamos um evento para chamar a função loadData quando o botão for clicado
+      buttonEl.addEventListener("click", loadData)
+    </script>
+  </body>
+</html>

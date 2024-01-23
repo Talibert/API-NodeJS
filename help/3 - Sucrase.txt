@@ -1,0 +1,18 @@
+1 - Para o utilizar o formato:
+import xxx from "xxx";
+Nós devemos adicionar o sucrase na dev dependence do package.json
+
+2 -Para isso, no terminal do vscode, vamos acionar o diretório do projeto e digitar "yarn add sucrase -D"
+
+3 - Verifique se ele aparece no arquivo package.json
+
+4 - Em seguida, devemos criar um arquivo na raiz do projeto chamado nodemon.json.
+
+5 - Esse arquivo precisa ter o seguinte conteúdo:
+        {
+            "execMap": {
+                "js": "sucrase-node"
+            }
+        }
+
+6 - Com esse arquivo criado, podemos utilizar o comando yarn dev para subir as mudanças

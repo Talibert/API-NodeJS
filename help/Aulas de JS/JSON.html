@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <script>
+      const person = { //Declaração de um objeto
+        name: "Felipe Fontoura",
+        age: 40,
+        address: {
+          street: "Rua Central",
+          number: "100",
+          complement: "",
+          district: "Centro",
+          city: "São Paulo",
+          state: "São Paulo",
+        },
+      }
+
+      // JSON.stringify transforma o objeto para string.
+      const personStr = JSON.stringify(person) //stringify para transformar objeto em string
+      console.log(typeof personStr)
+
+      // {
+      //   "name": "Felipe Fontoura",
+      //   "age": 40,
+      //   "address": {
+      //     "street": "Rua Central",
+      //     "number": "100",
+      //     "complement": "",
+      //     "district": "Centro",
+      //     "city": "São Paulo",
+      //     "state": "São Paulo"
+      //   }
+      // }
+
+      // JSON.parse transforma um JSON em um NOVO objeto.
+      const personObj = JSON.parse(personStr) //parse para transformar string em objeto
+      console.log(typeof personObj)
+    </script>
+  </body>
+</html>

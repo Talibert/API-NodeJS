@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Curriculum</title>
+  </head>
+  <body>
+    <img src="foto.png" width="100" />
+    <h1 id="person-name" class="text">Seu Nome</h1>
+    <h2>Programador JavaScript</h2>
+    <p class="text">
+      Conhecimento em programação Frontend, Backend para desenvolvimento de
+      sistemas Fullstack.
+    </p>
+    <p>
+      Para mais detalhes, por favor, visite meu
+      <a href="https://github.com/felipefontoura">Github</a> ou
+      <a href="https://devsamurai.com.br">Portfólio</a>.
+    </p>
+    <!-- <h2>Projetos</h2>
+    <ul>
+      <li>Projeto 1</li>
+      <li>Projeto 2</li>
+      <li>Projeto 3</li>
+    </ul> -->
+    <script>
+      // Criando elementos dinamicamente no DOM
+      // Ref.: https://developer.mozilla.org/pt-BR/docs/Web/API/Document/createElement
+
+      //precisamos criar uma variável para atribuir o elemento que iremos criar utilizando o comando a seguir:
+      const subTitleEl = document.createElement("h2") //criarmos um elemento do tipo h2
+      subTitleEl.innerHTML = "Projetos" //atribuimos o valor "projeto" na constante criada
+
+      const pjListEl = document.createElement("ul") //criamos um elemento do tipo ul - lista
+
+      const pjListItem1El = document.createElement("li") //criamos o item um da lista
+      pjListItem1El.innerHTML = "TODO MVC" //atribuimos o valor do item um da lista
+
+      const pjListItem2El = document.createElement("li") //criamos o item dois da lista
+      pjListItem2El.innerHTML = "Github API"
+
+      const pjListItem3El = document.createElement("li") //criamos o item três da lista
+      pjListItem3El.innerHTML = "eCommerce"
+
+      pjListEl.append(pjListItem1El) //anexamos o item 1 na lista criada
+      pjListEl.append(pjListItem2El) //anexamos o item 2 na lista criada
+      pjListEl.append(pjListItem3El) //anexamos o item 3 na lista criada
+
+      document.body.append(subTitleEl) //anexamos o elemento h2 na sessão body do HTML
+      document.body.append(pjListEl) //anexamos o elemento ul na sessão body do HTML
+
+      //aqui provamos que podemos modificar os elementos criados mesmo depois de adicioná-los
+      for (let i = 0; i < 3; i++) {
+        pjListItem3El.innerHTML = `eCommerce ${i}`
+      }
+    </script>
+  </body>
+</html>

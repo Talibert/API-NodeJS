@@ -1,0 +1,21 @@
+O multer é uma biblioteca do NodeJS responsável por facilitar o upload de arquivos
+
+1 - Crie o arquivo multer.js dentro da pasta config
+
+2 - no terminal, digite yarn add multer
+
+3 - Agora, fora da pasta src, crie uma pasta chamada tmp e crie outra pasta dentro chamada uploads
+
+4 - Vamos criar um arquivo chamado FilesController
+
+5 - Criaremos a migrate para criar no banco de dados a tabela files.
+
+6 - Deve haver uma relação entre files e usuário, pois linkaremos uma foto com um usuário
+
+7 - Iremos criar uma migrate para adicionar um campo na tabela User, para linkarmos a foto
+
+8 - Devemos criar a model File e associar ela com a model user e vice versa
+
+9 - Devemos importar a model file no index para poder iniciar a conexão com ela no banco de dados
+
+

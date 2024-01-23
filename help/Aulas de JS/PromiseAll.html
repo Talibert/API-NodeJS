@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <button>Executar</button>
+
+    <script>
+      function testPromise() {
+        console.log("sync started")
+
+        const p1 = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("p1 finished")
+            resolve(1)
+          }, 1000)
+        })
+
+        const p2 = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("p2 finished")
+            resolve(2)
+          }, 2000)
+        })
+
+        const p3 = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("p3 finished")
+            // resolve(3)
+            reject(6)
+          }, 3000)
+        })
+
+        // p1.then(() => {
+        //   p2.then(() => {
+        //     // resultado final depois de chamar as 2 promises
+        //   })
+        // })
+
+        //Promise.all é utilizada para retornar de forma simultânea o valor das promises passadas como argumento
+        Promise.all([p1, p2, p3])
+          .then((values) => {
+            console.log("promises values", values)//só é executado se todas as promises retornarem then
+          })
+          .catch((values) => {
+            console.error("promises error", values)//é executado se pelo menos uma promise retornar catch
+          })
+
+        console.log("sync finished")
+      }
+
+      const buttonEl = document.querySelector("button")
+      buttonEl.addEventListener("click", testPromise)
+    </script>
+  </body>
+</html>

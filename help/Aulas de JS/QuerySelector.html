@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Curriculum</title>
+  </head>
+  <body>
+    <img src="foto.png" width="100" />
+    <h1 id="person-name" class="text">Seu Nome</h1>
+    <h2>Programador JavaScript</h2>
+    <p class="text">
+      Conhecimento em programação Frontend, Backend para desenvolvimento de
+      sistemas Fullstack.
+    </p>
+    <p>
+      Para mais detalhes, por favor, visite meu
+      <a href="https://github.com/felipefontoura">Github</a> ou
+      <a href="https://devsamurai.com.br">Portfólio</a>.
+    </p>
+    <script>
+      // Acessando os nós do DOM
+
+      // Forma "antiga"...
+      
+      //Pega um elemento pelo seu ID
+      document.getElementById()
+
+      //Pega um elemento pela sua TAG
+      document.getElementByTagName()
+
+      //Pega um elemento pelo nome da sua classe
+      document.getElementsByClassName()
+
+      // Forma moderna...
+      // document.querySelector('selector')
+      // document.querySelectorAll('selector')
+      // element.querySelector('selector')
+      // element.querySelectorAll('selector')
+
+      // CSS Seletors
+      // Ref: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors
+
+      // Universal: *
+      // Id: #el-id
+      // Tag: <el>
+      // Class: .el-class
+      // Atributos: [attr=value]
+      // Grupos (vírgula): el,el
+      // Descendentes (espaço): el el
+      // Childs (>): el > el
+
+      //Pega todo o conteúdo do HTML
+      console.log("*", document.querySelectorAll("*"))
+
+      //Traz o primeiro resultado do ID informado
+      console.log("id", document.querySelector("#person-name"))
+
+      //Traz todos os resultados encontrados com a tag p
+      console.log("tag", document.querySelectorAll("p"))
+
+      //Traz todos os resultados com a classe .text
+      console.log("class", document.querySelectorAll(".text"))
+
+      //Traz todos os resultados com o atributo informado
+      console.log("attr", document.querySelectorAll("a[href]"))
+
+      console.log(
+         "attr",
+         document.querySelectorAll("a[href='https://devsamurai.com.br']")
+      )
+
+      // Iterando toda a árvore DOM...
+      for (const el of document.querySelectorAll("*")) {
+         console.log("el", el)
+      }
+    </script>
+  </body>
+</html>

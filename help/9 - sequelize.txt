@@ -1,0 +1,178 @@
+CONFIGURANDO O SEQUELIZE
+
+    1 - Dentro da pasta src, crie uma pasta chamada config
+    Crie também uma pasta database/migrations
+
+    2 - Abra o diretório do projeto no terminal e digite yarn add sequelize
+    digite também yarn add sequelize-cli -D para adicionar o sequelize como dev dependence
+
+    3- Crie na raiz do projeto um arquivo chamado .sequelizerc
+    Esse arquivo irá conter as configurações do sequelize
+    Mude no canto inferior direito de Plain Text para JavaScript
+
+    4 - Digite os seguintes comandos:
+
+            // Importa o método 'resolve' do módulo 'path' do Node.js
+            const { resolve } = require("path");
+
+            // Exporta um objeto que contém configurações relacionadas ao banco de dados
+            module.exports = {
+                // Caminho para o arquivo de configuração do banco de dados
+                "config": resolve(__dirname, "src", "config", "database.js"),
+
+                // Caminho para o diretório contendo os modelos (models) da aplicação
+                "models-path": resolve(__dirname, "src", "app", "models"),
+
+                // Caminho para o diretório contendo as migrações do banco de dados
+                "migrations-path": resolve(__dirname, "src", "database", "migrations"),
+
+                // Caminho para o diretório contendo os dados de seed (dados iniciais) do banco de dados
+                "seeders-path": resolve(__dirname, "src", "database", "seeds"),
+            };
+
+    5 - Abra o manual do sequelize e acesse a sessão de dialetos para acessar as libraries corretas de acordo com o BD que você for usar
+
+    6 - Estamos usando o postgresql. Abra a raiz do projeto no terminal e digite "yarn add pg pg-hstore"
+
+    7 - Dentro da pasta src, dentro da pasta config, crie um arquivo chamado "database.js". Nesse arquivo digite os seguintes comandos:
+
+            // Configuração para o Sequelize (um ORM para Node.js) relacionada a um banco de dados PostgreSQL
+            // Exporta um objeto com diversas configurações
+            module.exports = {
+                // Dialeto do banco de dados (PostgreSQL neste caso)
+                dialect: "postgres",
+                // Endereço do host do banco de dados
+                host: "localhost",
+                // Nome de usuário para autenticação no banco de dados
+                username: "postgres",
+                // Senha para autenticação no banco de dados
+                password: "malu",
+                // Nome do banco de dados a ser usado
+                database: "NODEJS",
+                // Define configurações adicionais para as tabelas do banco de dados
+                define: {
+                    // Adiciona colunas 'createdAt' e 'updatedAt' para rastrear timestamps de criação e atualização
+                    timestamp: true,
+                    // Usa o estilo underscored para nomes de colunas (ex.: nome_coluna) em vez de camelCase
+                    underscored: true,
+                    // Aplica a convenção underscored a todas as colunas, incluindo relacionamentos
+                    underscoredAll: true,
+                },
+            };
+
+CRIANDO MIGRATIONS
+
+    Migration Customer
+
+        1 - Com o arquivo sequelize configurado, podemos começar a criar migrations. Para isso, acesse o diretório do projeto no terminal e digite: 
+            
+            "yarn sequelize migration:create --name=create-NOME DA TABELA". 
+
+        Essa migration é para criar uma tabela e como iremos criar uma tabela para clientes, o comando será:
+
+            "yarn sequelize migrations:create --name=create-customers".
+
+        2 - Esse arquivo será automaticamente criado dentro da pasta database/migrations, já que configuramos dessa forma no sequelize.
+
+        3 - Para aplicar o Prettier/ESlint na migration é só apertar CTRL+C e depois salvar.
+
+        4 - Apague os comentários dentro dos comandos de up e down, deixando apenas os returns.
+
+        5 - insira os códigos necessários para criar a tabela
+    
+    Migration Contact
+
+        1 - Acesse o diretório do projeto no terminal e digite: 
+            
+            "yarn sequelize migration:create --name=create-contact".
+        
+        2 - Para fazer a referência de chave estrangeira:
+                        
+            customer_id: {
+                type: Sequelize.INTEGER,
+                references: { model: "customers", key: "id" }, // faz referência ao model customer, chave id
+                onUpdate: "CASCADE", // caso o model customer seja alterado, será refletido aqui
+                onDelete: "CASCADE", // caso o model customer seja deletado, será refletido aqui
+            },
+    
+    Migration Users
+
+        1 - Acesse o diretório do projeto no terminal e digite: 
+            
+            "yarn sequelize migration:create --name=create-users".
+        
+        2 - Digite os códigos referentes a migration
+
+    Executando as Migrations no BD
+
+        1 - abra o terminal e digite o comando : 
+            
+            "yarn sequelize db:migrate
+
+        2 - acesse o pgAdmin e verifique se a tabela foi criada no BD
+
+        3 - NUNCA MEXA NA TABELA "SequelizeMeta"
+
+        4 - Para desfazer as migrations, digite o comando:
+
+            "yarn sequelize db:migrate:undo:all"
+
+            "yarn sequelize db:migrate:undo" DESFAZ A ULTIMA
+
+CRIANDO MODELS
+
+    Uma migration é a receita que irá criar algo dentro do banco de dados. Um model é a classe que irá manipular o uso dessa "receita". Portanto, models manipulam migrations.
+
+    Model Customer
+
+        1 - Dentro da pasta app, crie uma pasta chamada "models"
+
+        2 - Dentro dessa pasta, crie um arquivo chamado "Customers.js"
+
+        3 - edite esse arquivo com os códigos
+    
+    Model Contact
+
+        1 - Crie o arquivo chamado "Contact.js" dentro da pasta
+
+        2 - Insira no código a referência da tabela de onde vem a chave estrangeira:
+
+            // sessão para informar relações de chave estrangeira
+            static associate(models) {
+                this.belongsTo(models.Customer, { foreignKey: "customer_id" }); // diz que o atributo customer_id pertence a tabela Customer
+            }
+
+        3 - Insira o código abaixo na tabela de onde a chave estrangeira vem:
+
+            // sessão para informar relações de chave estrangeira
+            static associate(models) {
+                this.hasMany(models.Contact); // diz que essa classe possui relação com a classe Contact
+            }
+    
+    Model User
+
+        1 - Crie o arquivo chamado "User.js" dentro da pasta
+
+        2 - insira os códigos necessários para criar a model
+
+CARREGANDO OS MODELS NA aplicação
+
+    1 - Crie, dentro da pasta database, um arquivo chamado index.js
+
+    2 - importe o sequelize, o config do database e a classe dos models criados
+
+    3 - Crie a classe Database e faça ela percorrer todos os models, passando a instância config do Sequelize como argumento
+
+    4 - no app.js importe o arquivo index.js do database e importe uma instância da classe Database
+
+    5 - no arquivo CustomersController, importe o model Customer. Agora, iremos tirar o uso do array nas rotas do CustomersController, fazendo-o usar o banco de dados
+
+    6 - crie as rotas de get, post, update e delete de acordo com os métodos do sequelize, utilizando a documentação
+
+OP, SCOPES E HOOKS
+
+    Op é um modulo do sequelize que permite utilizar operadores lógicos na condição where.
+
+    O Scope permite executar condições pré-definidas no where para reutilizar código
+
+    Os Hooks são ganchos de execução que podem executar tarefas antes ou depois da Query

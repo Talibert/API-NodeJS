@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <script>
+    // const bornDate = new Date()
+    // const bornDate = new Date(1982, 1, 18, 6)
+    // const bornDate = new Date("Feb 18 1982 06:00:00")
+    const bornDate = new Date("1982-02-18T09:00:00.000Z")
+    const today = new Date()
+
+    console.log(bornDate)
+    console.log(bornDate.toISOString())
+
+    console.log("dia", bornDate.getDate())
+    console.log("mês", bornDate.getMonth() + 1)
+    console.log("ano", bornDate.getFullYear())
+
+    console.log("idade", today.getFullYear() - bornDate.getFullYear())
+  </script>
+</html>

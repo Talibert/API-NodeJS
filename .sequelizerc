@@ -1,0 +1,18 @@
+// Importa o método 'resolve' do módulo 'path' do Node.js
+const { resolve } = require("path");
+
+// Exporta um objeto que contém configurações relacionadas ao banco de dados
+module.exports = {
+    // Caminho para o arquivo de configuração do banco de dados
+    config: resolve(__dirname, "src", "config", "database.js"),
+
+    // Caminho para o diretório contendo os modelos (models) da aplicação
+    "models-path": resolve(__dirname, "src", "app", "models"),
+
+    // Caminho para o diretório contendo as migrações do banco de dados
+    "migrations-path": resolve(__dirname, "src", "database", "migrations"),
+
+    // Caminho para o diretório contendo os dados de seed (dados iniciais) do banco de dados
+    "seeders-path": resolve(__dirname, "src", "database", "seeds"),
+};
+
