@@ -18,6 +18,8 @@
 
 10 - para clonar um projeto do github, devemos copiar a URL com o protocolo desejado e dar o comando "git clone URL COPIADA"
 
+NO TERMINAL DO PROJETO
+
 11 - use o comando git status (no terminal do projeto) para verificar quais arquivos que foram modificados
 
 12 - use o comando git diff para verificar linha por linha do que foi alterado
