@@ -1,0 +1,24 @@
+1 - Após clonar o repositório, digite PowerShell na barra de pesquisa e execute como adm
+
+2 - Cole isso "Get-ExecutionPolicy" e veja se a resposta é "Restricted". Caso for, cole "Set-ExecutionPolicy Unrestricted" e digite "S"
+
+3 - execute o comando "npm install -g yarn" para instalar o yarn
+
+4 - instale a extensão do Eslint
+
+5 - Após instalar, vá nas configurações do VSCode (File, Preferences, Settings), clique no canto superior esquerdo para abrir o arquivo settings.json
+
+6 - Lá, cole o seguinte código:
+
+        "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+        },
+        "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+        ]
+        "editor.wordWrap": "on"
+
+7 - Digite o comando "yarn add eslint-config-prettier eslint-plugin-prettier -D"
