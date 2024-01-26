@@ -15,4 +15,3 @@ module.exports = {
     // Caminho para o diretório contendo os dados de seed (dados iniciais) do banco de dados
     "seeders-path": resolve(__dirname, "src", "database", "seeds"),
 };
-
